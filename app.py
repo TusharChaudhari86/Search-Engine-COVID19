@@ -11,7 +11,7 @@ import en_core_sci_lg
 app = Flask(__name__)
 
 # medium model
-nlp = en_core_sci_lg.load(disable=["tagger", "parser", "ner"])
+nlp = en_core_web_sm.load(disable=["tagger", "parser", "ner"])
 nlp.max_length = 2000000
 
 bm25 = pickle.load(open('database.pkl', 'rb'))
