@@ -6,7 +6,7 @@ cluster = MongoClient("mongodb://Tushar:tushar@cluster0-shard-00-00-jf2fj.mongod
 db = cluster['research-paper']
 collection = db['covid']
 
-import en_core_sci_lg
+import en_core_web_sm
 
 app = Flask(__name__)
 
