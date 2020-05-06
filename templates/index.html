@@ -49,9 +49,9 @@
           <!-- Text Card// -->
           <h4>{{Question}}</h4>
           {% if articles %}
-          {% for article in articles %}
+          {% for n, article in articles %}
           <!-- The Modal -->
-          <div class="modal" id="myModal">
+          <div class="modal" id="Mymodel{{n}}">
                 <div class="modal-dialog modal-dialog-scrollable modal-xl">
                 <div class="modal-content">
                     <!-- Modal Header -->
@@ -90,7 +90,7 @@
             </div>
           <!-- The Card -->
           <div class="card">
-              <h5 href="#" class="card-header" data-toggle="modal" data-target="#myModal" style="float: right; cursor: pointer;">
+              <h5 href="#" class="card-header" data-toggle="modal" data-target="#Mymodel{{n}}" style="float: right; cursor: pointer;">
                   {{ article['title'] }}
               </h5>
               <div class="card-body">
