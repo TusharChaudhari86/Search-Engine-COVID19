@@ -51,7 +51,7 @@ def search():
     #articles = {"URL": articles['url'], "Title": articles['title'], "Body": articles['body_text'][0:500]}
     #articles = df.iloc[top, [11,5, 1]].reset_index(drop=True)
     #articles = [{"URL": articles.iloc[i,0], "Title": articles.iloc[i,1], "Body": articles.iloc[i,2][0:500]} for i in range(len(articles))]
-    return render_template('index.html', articles=articles, Question = query)
+    return render_template('index.html', articles=enumerate(articles), Question = query)
 
 if __name__ == "__main__":
     app.run(debug=True)
