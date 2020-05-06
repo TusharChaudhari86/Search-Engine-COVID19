@@ -1,6 +1,5 @@
 from flask import Flask, render_template, jsonify, request
 import pickle
-import pandas as pd
 from pymongo import MongoClient
 import en_core_web_sm
 
