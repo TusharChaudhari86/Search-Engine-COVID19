@@ -4,11 +4,10 @@
     // ABOUT SLIDER
     $('body').vegas({
         slides: [
-            { src: 'slide-image01.jpg' },
-            { src: 'slide-image02.jpg' }
+            { src: '/static/images/library.jpg' },
+            { src: '/static/images/library2.jpg' }
         ],
         timer: false,
         transition: [ 'zoomOut', ]
     });
-
 })(jQuery);
