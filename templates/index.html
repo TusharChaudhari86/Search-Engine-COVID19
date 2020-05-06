@@ -2,15 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NLP | Template</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link href="/static/main.css" rel="stylesheet">
+    <title>Prod | Version</title>
+    <link rel="stylesheet" href="../static/bootstrap.css">
+    <link rel="stylesheet" href="../static/bootstrap-grid.css">
+    <link rel="stylesheet" href="../static/bootstrap-reboot.css">
+    <link rel="stylesheet" href="../static/main.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
 </head>
 <body>
-    <!-- Navigation bar// -->
-    <nav class="navbar navbar-light bg-light ">
+    <nav class="navbar navbar-light bg-light justify-content-center">
         <a class="navbar-brand" href="#">
-            NLP | Template
+            COVID-19 Research Paper Search Engine
         </a>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav">
@@ -24,80 +31,14 @@
         </div>
     </nav>
 
-  <div class="row">
-      <!-- Side bar// -->
-      <aside class="col-3">
-            <h4>Filter</h4>
-            <div class="card">
-                <!-- Journel card-group-item.// -->
-                <article class="card-group-item">
-                    <header class="card-header">
-                        <h5 class="title">Journals</h5>
-                    </header>
-                    <div class="filter-content">
-                        <div class="card-body">
-                        <form>
-                            <label class="form-check">
-                              <input class="form-check-input" type="checkbox" value="">
-                              <span class="form-check-label">
-                                ABC
-                              </span>
-                            </label> <!-- form-check.// -->
-                            <label class="form-check">
-                              <input class="form-check-input" type="checkbox" value="">
-                              <span class="form-check-label">
-                                PQR
-                              </span>
-                            </label>  <!-- form-check.// -->
-                            <label class="form-check">
-                              <input class="form-check-input" type="checkbox" value="">
-                              <span class="form-check-label">
-                                XYW
-                              </span>
-                            </label>  <!-- form-check.// -->
-                        </form>
-
-                        </div> <!-- card-body.// -->
-                    </div>
-                </article>
-
-                <!-- Year Pub card-group-item.// -->
-                <article class="card-group-item">
-                    <header class="card-header">
-                        <h6 class="title">Year of Publish </h6>
-                    </header>
-                    <div class="filter-content">
-                        <div class="card-body">
-                            <label class="form-check">
-                              <input class="form-check-input" type="radio" name="exampleRadio" value="">
-                              <span class="form-check-label">
-                                2012
-                              </span>
-                            </label>
-                            <label class="form-check">
-                              <input class="form-check-input" type="radio" name="exampleRadio" value="">
-                              <span class="form-check-label">
-                                2015
-                              </span>
-                            </label>
-                            <label class="form-check">
-                              <input class="form-check-input" type="radio" name="exampleRadio" value="">
-                              <span class="form-check-label">
-                                2020
-                              </span>
-                            </label>
-                        </div> <!-- card-body.// -->
-                    </div>
-                </article>
-            </div>
-      </aside>
+    <div class="row justify-content-center">
       <div class="col-9">
           <!-- Form submission// -->
           <form action="{{ url_for('search')}}"method="post">
           <!-- Search bar// -->
               <div class="row justify-content-center no-gutters">
                 <div class="col-11 mr-auto">
-                    <input type="text" class="border border-secondary form-control" name="text" placeholder="Input text here....">
+                    <input type="text" class="border border-secondary form-control" name="text" placeholder="Type your queries related to COVID-19 here....">
                 </div>
               </div>
               <!-- Search Button// -->
@@ -109,12 +50,53 @@
           <h4>{{Question}}</h4>
           {% if articles %}
           {% for article in articles %}
+          <!-- The Modal -->
+          <div class="modal" id="myModal">
+                <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h5 class="modal-title">{{article['title']}}</h5>
+                      <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div style="color: gray; z-index: 1000;">
+                            <b>Authors : </b>{{article['authors']}}<br>
+                            <b>Jorunal : </b>{{article['journal']}}<br>
+                            <b>Published on : </b>{{article['publish_time']}}
+                        </div>
+                        <div>
+                            <a href="{{article['url']}}" target="_blank">
+                                <i class="fa fa-external-link" style="color: royalblue; font-size: 1.5em;"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <h5>Abstract</h5>
+                            <p>{{article['abstract']}}</p>
+                            <h5>Body</h5>
+                            <p>{{article['body_text'][0:2000]}}.....</p>
+                        </div>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+
+            </div>
+            </div>
+          <!-- The Card -->
           <div class="card">
-              <h5 class="card-header">Title : {{ article['title'] }}</h5>
+              <h5 href="#" class="card-header" data-toggle="modal" data-target="#myModal" style="float: right; cursor: pointer;">
+                  {{ article['title'] }}
+              </h5>
               <div class="card-body">
-                  <h5 class="card-title">Body</h5>
+                  <h5 class="card-title">Abstract</h5>
                   <p class="card-text">
-                      {{ article['body_text'][0:500]}}
+                      {{ article['abstract'] }}
                   </p>
               </div>
           </div>
@@ -123,8 +105,8 @@
       </div>
   </div>
 
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    </body>
+
+
+</body>
+
 </html>
