@@ -1,12 +1,13 @@
 from flask import Flask, render_template, jsonify, request
 import pickle
+import pandas as pd
 from pymongo import MongoClient
+import en_core_web_sm
 
 cluster = MongoClient("mongodb://Tushar:tushar@cluster0-shard-00-00-jf2fj.mongodb.net:27017,cluster0-shard-00-01-jf2fj.mongodb.net:27017,cluster0-shard-00-02-jf2fj.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority")
 db = cluster['research-paper']
 collection = db['covid']
 
-import en_core_web_sm
 
 app = Flask(__name__)
 
@@ -48,10 +49,7 @@ def search():
     articles = []
     for index in top:
         articles.append(collection.find_one({'index': index}))
-    #articles = {"URL": articles['url'], "Title": articles['title'], "Body": articles['body_text'][0:500]}
-    #articles = df.iloc[top, [11,5, 1]].reset_index(drop=True)
-    #articles = [{"URL": articles.iloc[i,0], "Title": articles.iloc[i,1], "Body": articles.iloc[i,2][0:500]} for i in range(len(articles))]
-    return render_template('index.html', articles=enumerate(articles), Question = query)
+    return render_template('search.html', articles=enumerate(articles), Question = query)
 
 if __name__ == "__main__":
     app.run(debug=True)
