@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prod | Version</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-grid.css">
+    <link rel="stylesheet" href="/static/css/bootstrap-reboot.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+</head>
+<body style="background: linear-gradient(to top right, #ffffff, #000000)">
+     <nav class="navbar navbar-light justify-content-center" style="background-color: transparent">
+        <a class="navbar-brand" href="#" style="color: white; font-size: x-large">
+            COVID-19 Research Paper Search Engine
+        </a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">About me</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Info</a>
+                </li>
+            </ul>
+        </div>
+     </nav>
+
+    <div class="row justify-content-center">
+    <div class="col-9">
+          <!-- Form submission// -->
+          <form action="{{ url_for('search')}}"method="post">
+          <!-- Search bar// -->
+              <div class="row justify-content-center">
+                <div class="col mr-auto">
+                    <input type="text" class="border border-secondary form-control" name="text" placeholder="Type your queries related to COVID-19 research here....">
+                </div>
+              </div>
+              <!-- Search Button// -->
+              <div class="row no-gutters">
+                <button type="submit" class="btn btn-primary mr-auto" type="button">Search</button>
+              </div>
+          </form>
+          <!-- Text Card// -->
+          <h4 style="font-size: x-large; color: white">{{Question}}</h4>
+          {% if articles %}
+          {% for n, article in articles %}
+          <!-- The Modal -->
+          <div class="modal" id="Mymodel{{n}}">
+                <div class="modal-dialog modal-dialog-scrollable modal-xl">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h5 class="modal-title">{{ article['title'] }}</h5>
+                      <button type="button" class="close" data-dismiss="modal">×</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div style="color: gray; z-index: 1000;">
+                            <b>Authors : </b>{{article['authors']}}<br>
+                            <b>Jorunal : </b>{{article['journal']}}<br>
+                            <b>Published on : </b>{{article['publish_time']}}
+                        </div>
+                        <div>
+                            <a href="{{article['url']}}" target="_blank">
+                                <i class="fa fa-external-link" style="color: royalblue; font-size: 1.5em;"></i>
+                            </a>
+                        </div>
+                        <div>
+                            <h5>Abstract</h5>
+                            <p>{{article['abstract']}}</p>
+                            <h5>Body</h5>
+                            <p>{{article['body_text'][0:2000]}}.....</p>
+                        </div>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+                </div>
+
+            </div>
+            </div>
+          <!-- The Card -->
+          <div class="card shadow mb-5" style="background-color: white; opacity: 0.8">
+              <h5 href="#" class="card-header" data-toggle="modal" data-target="#Mymodel{{n}}" style="float: right; cursor: pointer;">
+                  {{ article['title'] }}
+              </h5>
+              <div class="card-body">
+                  <h5 class="card-title">Abstract</h5>
+                  <p class="card-text">
+                      {{ article['abstract'] }}
+                  </p>
+              </div>
+          </div>
+          {% endfor %}
+          {% endif %}
+      </div>
+  </div>
+</body>
+
+</html>
