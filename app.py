@@ -4,6 +4,7 @@ from pymongo import MongoClient
 from DataRequest.MakeApiRequests import Api
 from flask_cors import CORS, cross_origin
 import en_core_web_sm
+import json
 
 cluster = MongoClient("mongodb://Tushar:tushar@cluster0-shard-00-00-jf2fj.mongodb.net:27017,cluster0-shard-00-01-jf2fj.mongodb.net:27017,cluster0-shard-00-02-jf2fj.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true&w=majority")
 db = cluster['research-paper']
