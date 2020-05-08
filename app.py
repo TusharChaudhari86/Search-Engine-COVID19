@@ -50,5 +50,73 @@ def search():
         articles.append(collection.find_one({'index': index}))
     return render_template('search.html', articles=enumerate(articles), Question = query)
 
+
+# processing the request from dialogflow
+def processRequest(req):
+    sessionID = req.get('responseId')
+    result = req.get("queryResult")
+    intent = result.get("intent").get('displayName')
+    query_text = result.get("queryText")
+    parameters = result.get("parameters")
+
+    api = Api()
+    if intent == 'covid_searchcountry':
+        cust_country = parameters.get("geo-country")
+        if(cust_country=="United States"):
+            cust_country = "USA"
+
+        fulfillmentText, deaths_data, testsdone_data = api.makeApiRequestForCountry(cust_country)
+        webhookresponse = "***Covid Report*** \n\n" + " New cases :" + str(fulfillmentText.get('new')) + \
+                          "\n" + " Active cases : " + str(
+            fulfillmentText.get('active')) + "\n" + " Critical cases : " + str(fulfillmentText.get('critical')) + \
+                          "\n" + " Recovered cases : " + str(
+            fulfillmentText.get('recovered')) + "\n" + " Total cases : " + str(fulfillmentText.get('total')) + \
+                          "\n" + " Total Deaths : " + str(deaths_data.get('total')) + "\n" + " New Deaths : " + str(
+            deaths_data.get('new')) + \
+                          "\n" + " Total Test Done : " + str(deaths_data.get('total')) + "\n\n*******END********* \n "
+        print(webhookresponse)
+
+        return {
+
+            "fulfillmentMessages": [
+                {
+                    "text": {
+                        "text": [
+                            webhookresponse
+                        ]
+
+                    }
+                },
+                {
+                    "text": {
+                        "text": [
+                            "Do you want me to send the detailed report to your e-mail address? Type.. \n 1. Sure \n 2. Not now "
+                            # "We have sent the detailed report of {} Covid-19 to your given mail address.Do you have any other Query?".format(cust_country)
+                        ]
+
+                    }
+                }
+            ]
+        }
+    elif intent == "Welcome" or intent == "continue_conversation" or intent == "not_send_email" or intent == "endConversation" or intent == "Fallback" or intent == "covid_faq" or intent == "select_country_option":
+        fulfillmentText = result.get("fulfillmentText")
+
+    else:
+        return {
+            "fulfillmentText": "something went wrong,Lets start from the begning, Say Hi",
+        }
+
+@app.route('/webhook', methods=['POST'])
+@cross_origin()
+def webhook():
+    req = request.get_json(silent=True, force=True)
+    res = processRequest(req)
+    res = json.dumps(res, indent=4)
+    print(res)
+    r = make_response(res)
+    r.headers['Content-Type'] = 'application/json'
+    return r
+
+
 if __name__ == "__main__":
     app.run(debug=True)
