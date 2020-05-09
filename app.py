@@ -68,8 +68,10 @@ def processRequest(req):
         if(cust_country=="United States"):
             cust_country = "USA"
 
-        fulfillmentText, deaths_data, testsdone_data = api.makeApiRequestForCountry(cust_country)
-        webhookresponse = "***Covid Report*** \n\n" + " New cases :" + str(fulfillmentText.get('new')) + \
+        fulfillmentText, deaths_data, testsdone_data, date = api.makeApiRequestForCountry(cust_country)
+        yyyy,mm, dd = date[0:4], date[5:7], date[8:10]
+        date = str(dd)+'-'+str(mm)+'-'+str(yyyy)
+        webhookresponse = "Date :" + date +"\n***Covid Report***\n\n" + " New cases :" + str(fulfillmentText.get('new')) + \
                           "\n" + " Active cases : " + str(
             fulfillmentText.get('active')) + "\n" + " Critical cases : " + str(fulfillmentText.get('critical')) + \
                           "\n" + " Recovered cases : " + str(
@@ -89,24 +91,16 @@ def processRequest(req):
                         ]
 
                     }
-                },
-                {
-                    "text": {
-                        "text": [
-                            "Do you want me to send the detailed report to your e-mail address? Type.. \n 1. Sure \n 2. Not now "
-                            # "We have sent the detailed report of {} Covid-19 to your given mail address.Do you have any other Query?".format(cust_country)
-                        ]
-
-                    }
                 }
             ]
         }
+    
     elif intent == "Welcome" or intent == "continue_conversation" or intent == "not_send_email" or intent == "endConversation" or intent == "Fallback" or intent == "covid_faq" or intent == "select_country_option":
         fulfillmentText = result.get("fulfillmentText")
 
     else:
         return {
-            "fulfillmentText": "something went wrong,Lets start from the begning, Say Hi",
+            "fulfillmentText": "something went wrong,Lets start from the begining, Say Hi",
         }
 
 @app.route('/webhook', methods=['POST'])
