@@ -20,4 +20,4 @@ class Api:
         result = js.get('response')[0]
         print(result.get('cases'))
         print("*" * 20)
-        return result.get('cases') , result.get('deaths'),result.get('tests')
+        return result.get('cases') , result.get('deaths'),result.get('tests'), result.get('day')
