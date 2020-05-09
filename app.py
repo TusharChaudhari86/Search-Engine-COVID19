@@ -158,8 +158,22 @@ def processRequest(req):
         }
     elif intent == 'Image':
         return {
-            "imageUrl": img_url
+    "fulfillmentMessages": [
+        {
+            "image": {
+                "imageUri": "https://firebasestorage.googleapis.com/v0/b/cord-19-xmelda.appspot.com/o/images%2FIndia.png?alt=media&token=d3fb3087-1f0d-4ed9-ad86-d8e5c4308ca8"
+            },
+            "platform": "TELEGRAM"
+        },
+        {
+            "text": {
+                "text": [
+                    ""
+                ]
+            }
         }
+    ]
+}
 
     else:
         return {
