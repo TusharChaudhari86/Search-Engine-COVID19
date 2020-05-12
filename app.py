@@ -114,7 +114,7 @@ def processRequest(req):
     axs[1].axis('off')
 
     fig.suptitle(country, fontsize=16)
-    path_local = "Saved_images/" + country + ".png"
+    path_local = "static/images/" + country + ".png"
     plt.savefig(path_local, format="png")
     img_url = "https://covid19-research-paper.herokuapp.com/"+path_local
 
