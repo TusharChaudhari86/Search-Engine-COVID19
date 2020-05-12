@@ -71,16 +71,16 @@ def processRequest(req):
 
 
 
-    config = {
-        "apiKey": "AIzaSyCkDXgXwFulPLFWizcAFmBfy-wkLbFsZ8Y",
-        "authDomain": "cord-19-xmelda.firebaseapp.com",
-        "databaseURL": "https://cord-19-xmelda.firebaseio.com",
-        "projectId": "cord-19-xmelda",
-        "storageBucket": "cord-19-xmelda.appspot.com",
-        "messagingSenderId": "366698547823",
-        "appId": "1:366698547823:web:fe0eaef288543eb2601b9a",
-        "measurementId": "G-90KFJ64REE"
-    }
+#     config = {
+#         "apiKey": "AIzaSyCkDXgXwFulPLFWizcAFmBfy-wkLbFsZ8Y",
+#         "authDomain": "cord-19-xmelda.firebaseapp.com",
+#         "databaseURL": "https://cord-19-xmelda.firebaseio.com",
+#         "projectId": "cord-19-xmelda",
+#         "storageBucket": "cord-19-xmelda.appspot.com",
+#         "messagingSenderId": "366698547823",
+#         "appId": "1:366698547823:web:fe0eaef288543eb2601b9a",
+#         "measurementId": "G-90KFJ64REE"
+#     }
 
     country = parameters.get("geo-country")
     api = Api()
@@ -97,7 +97,7 @@ def processRequest(req):
 
     labels = ['Active', 'recovered', 'Death']
     sizes = [active_per, recov_per, death_per]
-    colors = ['dodgerblue', 'limegreen', 'red']
+    colors = ['#008fd5', '#6d904f', '#fc4f30']
     table_data = [
         ["Total", total],
         ["Active", active],
@@ -116,15 +116,16 @@ def processRequest(req):
     fig.suptitle(country, fontsize=16)
     path_local = "Saved_images/" + country + ".png"
     plt.savefig(path_local, format="png")
+    img_url = "https://covid19-research-paper.herokuapp.com/"+path_local
 
-    path_on_cloud = "images/" + country + ".png"
+#     path_on_cloud = "images/" + country + ".png"
 
-    firebase = pyrebase.initialize_app(config)
-    storage = firebase.storage()
+#     firebase = pyrebase.initialize_app(config)
+#     storage = firebase.storage()
 
-    imgurl = storage.child(path_on_cloud).put(path_local)
+#     imgurl = storage.child(path_on_cloud).put(path_local)
 
-    img_url = storage.child(path_on_cloud).get_url(imgurl['downloadTokens'])
+#     img_url = storage.child(path_on_cloud).get_url(imgurl['downloadTokens'])
 
     if intent == 'covid_searchcountry':
         cust_country = parameters.get("geo-country")
